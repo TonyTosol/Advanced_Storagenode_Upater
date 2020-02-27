@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "advanced_storagenode_updater", "v_storagenode_updater\advanced_storagenode_updater.vbproj", "{BC7B687D-2F56-42E7-903E-DC5372861883}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AdvStoragenodeUpdater", "AdvStoragenodeUpdater\AdvStoragenodeUpdater.vdproj", "{107274BE-C624-44D0-A29F-100AC3A722FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Debug|x64.ActiveCfg = Debug|x64
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Debug|x64.Build.0 = Debug|x64
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Release|x64.ActiveCfg = Release|Any CPU
+		{BC7B687D-2F56-42E7-903E-DC5372861883}.Release|x64.Build.0 = Release|Any CPU
+		{107274BE-C624-44D0-A29F-100AC3A722FA}.Debug|Any CPU.ActiveCfg = Debug
+		{107274BE-C624-44D0-A29F-100AC3A722FA}.Debug|x64.ActiveCfg = Debug
+		{107274BE-C624-44D0-A29F-100AC3A722FA}.Release|Any CPU.ActiveCfg = Release
+		{107274BE-C624-44D0-A29F-100AC3A722FA}.Release|x64.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90DB6CBA-6E3C-4EF1-BD61-49E06C7EB345}
+	EndGlobalSection
+EndGlobal
