@@ -30,7 +30,7 @@ Public Class advanced_storagenode_updater
 
     Private NodeData As NodeStruct
     Private data As JObject
-    Private Timer As Timers.Timer
+
 
     Private random As New Random()
 
@@ -43,18 +43,18 @@ Public Class advanced_storagenode_updater
     End Sub
 
     Protected Overrides Sub OnStop()
-        If timer IsNot Nothing Then
-            timer.Stop()
-            timer.Dispose()
-        End If
+
         ' Add code here to perform any tear-down necessary to stop your service.
     End Sub
     Private Sub StartTimer()
-        timer = New Timers.Timer
-        timer.Interval = 60000 * 60 * random.Next(12, 72)
-        AddHandler timer.Elapsed, AddressOf Update
-        timer.Start()
-        Log("Next update after: " & timer.Interval / (60000 * 60) & " h")
+        Dim timer As Double = 60000 * 60 * random.Next(12, 72)
+        Update()
+        Log("Next update after: " & timer / (60000 * 60) & " h")
+        Threading.Thread.Sleep(timer)
+        Dim newtimer As New Threading.Thread(AddressOf StartTimer)
+        newtimer.IsBackground = True
+        newtimer.Start()
+
     End Sub
     Private Sub Update()
 
@@ -152,17 +152,24 @@ Public Class advanced_storagenode_updater
                 If NodeData.Nodes IsNot Nothing Then
                     For Each node As NodeProp In NodeData.Nodes
                         If node.UpdateNeeded Then
-                            Dim sc As ServiceController = New ServiceController(node.ServiceName)
-                            sc.Stop()
-                            Log("Stoping: " & node.ServiceName)
-                            Threading.Thread.Sleep(5000)
-                            Log("Updating: " & node.ServiceName)
-                            My.Computer.FileSystem.RenameFile(node.Path, "storagenode" & GetVersion(node.Path).Replace(".", "-") & ".exe")
-                            My.Computer.FileSystem.CopyFile(My.Application.Info.DirectoryPath & "\storagenode.exe", node.Path)
-                            Threading.Thread.Sleep(5000)
-                            Log("Starting: " & node.ServiceName)
-                            sc.Start()
-                            Log("Update complete: " & node.ServiceName)
+
+                            If File.Exists(node.Path) Then
+                                Dim sc As ServiceController = New ServiceController(node.ServiceName)
+                                sc.Stop()
+                                Log("Stoping: " & node.ServiceName)
+                                Threading.Thread.Sleep(5000)
+                                Log("Updating: " & node.ServiceName)
+
+                                My.Computer.FileSystem.CopyFile(My.Application.Info.DirectoryPath & "\storagenode.exe", node.Path, True)
+                                Threading.Thread.Sleep(5000)
+                                Log("Starting: " & node.ServiceName)
+                                sc.Start()
+                                Log("Update complete: " & node.ServiceName)
+                            Else
+                                Log("Cant find storagenode.exe on path " & node.Path)
+
+
+                            End If
                         Else
                             Log(node.ServiceName & " is up to date")
                         End If
@@ -171,6 +178,8 @@ Public Class advanced_storagenode_updater
             End If
 
         Catch ex As Exception
+
+
             Log("Update Nodes Error: " & ex.Message)
         End Try
     End Sub
@@ -181,12 +190,14 @@ Public Class advanced_storagenode_updater
                 If NodeData.Nodes IsNot Nothing Then
                     For Each node As NodeProp In NodeData.Nodes
                         Dim nodeversion As String = GetVersion(node.Path)
-                        If String.Compare(newversion, nodeversion) = 0 Then
-                        Else
-                            node.UpdateNeeded = True
-                            Log("Discovered old verion, need update: " & node.ServiceName)
+                        Dim nodeversion2 As String = GetVersion(node.Path)
+                        If String.Compare(nodeversion, nodeversion2) = 0 Then
+                            If String.Compare(newversion, nodeversion) = 0 Then
+                            Else
+                                node.UpdateNeeded = True
+                                Log("Discovered old verion, need update: " & node.ServiceName)
+                            End If
                         End If
-
                     Next
                 End If
             End If
